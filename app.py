@@ -1,11 +1,12 @@
-from flask import Flask
+from flask import Flask, render_template
 
 app = Flask(__name__)
 
 
 @app.route("/")
-def hello_world():
-    return "Hello, World!"
+def index():
+    # code here to fetch
+    return render_template("index.html", post=blog_postsls)
 
 
 if __name__ == "__main__":
