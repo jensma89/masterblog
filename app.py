@@ -1,12 +1,15 @@
 from flask import Flask, render_template
+import json as js
 
 app = Flask(__name__)
 
 
 @app.route("/")
 def index():
-    # code here to fetch
-    return render_template("index.html", post=blog_postsls)
+    with open("blog_storage.json", "r") as file:
+        blog_posts = js.load(file)
+
+    return render_template("index.html", post=blog_posts)
 
 
 if __name__ == "__main__":
