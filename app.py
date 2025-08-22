@@ -1,3 +1,10 @@
+"""
+app.py
+
+A little web-application to add, update, delete,
+like and dislike blogs.
+"""
+
 import json as js
 from flask import (Flask,
                    render_template,
@@ -9,6 +16,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
+    """Load and show the root page."""
     with open("blog_storage.json", "r") as file:
         blog_posts = js.load(file)
 
@@ -18,6 +26,7 @@ def index():
 
 @app.route("/add", methods=["GET", "POST"])
 def add():
+    """Load the page to add a new post and save it."""
     if request.method == "POST":
 
         try:
@@ -27,6 +36,7 @@ def add():
             print("File not found")
             blog_posts = []
 
+        # Create the new entry in the dictionary
         new_post = {
             "id": len(blog_posts) + 1,
             "title": request.form.get("title", "Untitled"),
@@ -47,6 +57,8 @@ def add():
 
 @app.route("/delete/<int:post_id>", methods=["GET", "POST"])
 def delete(post_id):
+    """Delete a post via button or URL.
+    And remove it from dictionary"""
     try:
         with open("blog_storage.json", "r") as file:
             blog_posts = js.load(file)
@@ -54,6 +66,7 @@ def delete(post_id):
         print("File not found")
         blog_posts = []
 
+    # Check for the right id
     blog_posts = [post for post in blog_posts
                   if post["id"] != post_id]
 
@@ -65,6 +78,7 @@ def delete(post_id):
 
 @app.route("/update/<int:post_id>", methods=["GET", "POST"])
 def update(post_id):
+    """Edit a post via an html form."""
     try:
         with open("blog_storage.json", "r") as file:
             blog_posts = js.load(file)
@@ -72,14 +86,19 @@ def update(post_id):
         print("File not found")
         blog_posts = []
 
-    post = next((p for p in blog_posts if p["id"] == post_id), None)
+    # Check for existing post
+    post = next((p for p in blog_posts
+                 if p["id"] == post_id), None)
     if post is None:
         return "Post not found", 404
 
     if request.method == "POST":
-        post["title"] = request.form.get("title", post["title"])
-        post["author"] = request.form.get("author", post["author"])
-        post["content"] = request.form.get("content", post["content"])
+        post["title"] = request.form.get("title",
+                                         post["title"])
+        post["author"] = request.form.get("author",
+                                          post["author"])
+        post["content"] = request.form.get("content",
+                                           post["content"])
 
         with open("blog_storage.json", "w") as file:
             js.dump(blog_posts, file, indent=4)
@@ -91,6 +110,8 @@ def update(post_id):
 
 @app.route("/like/<int:post_id>", methods=["POST"])
 def like(post_id):
+    """Add a like to the blog
+    and increase the count to show."""
     try:
         with open("blog_storage.json", "r") as file:
             blog_posts = js.load(file)
@@ -98,6 +119,7 @@ def like(post_id):
         print("File not found")
         blog_posts = []
 
+    # Increment by click
     for post in blog_posts:
         if post["id"] == post_id:
             post["likes"] += 1
@@ -111,6 +133,8 @@ def like(post_id):
 
 @app.route("/dislike/<int:post_id>", methods=["POST"])
 def dislike(post_id):
+    """Add a dislike to the blog
+    and increase the count to show."""
     try:
         with open("blog_storage.json", "r") as file:
             blog_posts = js.load(file)
@@ -118,6 +142,7 @@ def dislike(post_id):
         print("File not found")
         blog_posts = []
 
+    # Increment by click
     for post in blog_posts:
         if post["id"] == post_id:
             post["dislikes"] += 1
