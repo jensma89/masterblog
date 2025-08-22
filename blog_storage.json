@@ -3,7 +3,7 @@
         "id": 1,
         "author": "John Doe",
         "title": "First post",
-        "content": "This is my first post."
+        "content": "This is my first post.The really first :)"
     },
     {
         "id": 2,
@@ -15,6 +15,6 @@
         "id": 3,
         "author": "Kathy Miller",
         "title": "Third post",
-        "content": "What iam write?"
+        "content": "hello iam update something"
     }
 ]

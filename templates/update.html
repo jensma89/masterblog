@@ -9,11 +9,11 @@
 <body>
     <h1>Update Post</h1>
 
-    <form action="{{ for_url('update', post_id=post.id) }}" method="POST">
+    <form action="{{ url_for('update', post_id=post.id) }}" method="POST">
       <label>Title: <input type="text" name="title" value="{{ post.title }}"></label><br>
       <label>Author: <input type="text" name="author" value="{{ post.author }}"></label><br>
       <label>Content:</label><br>
-      <textarea name="content">{{ post.content }}</textarea><br>
+      <textarea name="content" rows="6" cols="40">{{ post.content }}</textarea><br>
       <button type="submit">Save changes</button>
     </form>
 
