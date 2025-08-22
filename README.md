@@ -4,6 +4,7 @@ This is a simple Flask-based blog application that allows users to create, updat
 The data is stored in a JSON file. You can use the Buttons or the routes below for the URL.
 
 Routes:
+
     •	/ – Display all blog posts with like/dislike and update/delete options.
 	•	/add – Create a new blog post (GET shows the form, POST saves the post).
 	•	/update/<int:post_id> – Update an existing post by its ID.
