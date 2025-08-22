@@ -24,6 +24,7 @@ def add():
             with open("blog_storage.json", "r") as file:
                 blog_posts = js.load(file)
         except FileNotFoundError:
+            print("File not found")
             blog_posts = []
 
         new_post = {
@@ -42,6 +43,22 @@ def add():
     return render_template("add.html")
 
 
+@app.route("/delete/<int:post_id>", methods=["POST"])
+def delete(post_id):
+    try:
+        with open("blog_storage.json", "r") as file:
+            blog_posts = js.load(file)
+    except FileNotFoundError:
+        print("File not found")
+        blog_posts = []
+
+    blog_posts = [post for post in blog_posts
+                  if post["id"] != post_id]
+
+    with open("blog_storage.json", "w") as file:
+        js.dump(blog_posts, file, indent=4)
+
+    return redirect(url_for("index"))
 
 
 
