@@ -19,17 +19,19 @@ def index():
 @app.route("/add", methods=["GET", "POST"])
 def add():
     if request.method == "POST":
-        new_post = {
-            "title": request.form.get("title", "Untitled"),
-            "author": request.form.get("author", "Anonymous"),
-            "content": request.form.get("content", "")
-        }
 
         try:
             with open("blog_storage.json", "r") as file:
                 blog_posts = js.load(file)
         except FileNotFoundError:
             blog_posts = []
+
+        new_post = {
+            "id": len(blog_posts) + 1,
+            "title": request.form.get("title", "Untitled"),
+            "author": request.form.get("author", "Anonymous"),
+            "content": request.form.get("content", "")
+        }
 
         blog_posts.append(new_post)
 
