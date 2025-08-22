@@ -20,9 +20,9 @@ def index():
 def add():
     if request.method == "POST":
         new_post = {
-            "title": request.form["title"],
-            "author": request.form["author"],
-            "content": request.form["content"]
+            "title": request.form.get("title", "Untitled"),
+            "author": request.form.get("author", "Anonymous"),
+            "content": request.form.get("content", "")
         }
 
         try:
