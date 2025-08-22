@@ -43,7 +43,7 @@ def add():
     return render_template("add.html")
 
 
-@app.route("/delete/<int:post_id>", methods=["POST"])
+@app.route("/delete/<int:post_id>", methods=["GET", "POST"])
 def delete(post_id):
     try:
         with open("blog_storage.json", "r") as file:
