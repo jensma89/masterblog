@@ -9,7 +9,7 @@ def index():
     with open("blog_storage.json", "r") as file:
         blog_posts = js.load(file)
 
-    return render_template("index.html", post=blog_posts)
+    return render_template("index.html", posts=blog_posts)
 
 
 if __name__ == "__main__":
