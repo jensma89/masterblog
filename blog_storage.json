@@ -1,20 +1,18 @@
 [
     {
         "id": 1,
+        "title": "Hello Together!",
         "author": "John Doe",
-        "title": "First post",
-        "content": "This is my first post.The really first :)"
+        "content": "Iam the first blogger on this site",
+        "likes": 7,
+        "dislikes": 0
     },
     {
         "id": 2,
-        "author": "Jane Doro",
-        "title": "Second post",
-        "content": "This is a another post."
-    },
-    {
-        "id": 3,
-        "author": "Kathy Miller",
-        "title": "Third post",
-        "content": "hello iam update something"
+        "title": "Second",
+        "author": "Jane Doroe",
+        "content": "Congrats! ",
+        "likes": 0,
+        "dislikes": 0
     }
 ]
