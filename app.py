@@ -14,14 +14,31 @@ from flask import (Flask,
 app = Flask(__name__)
 
 
+def read_json_file():
+    """Read the data from JSON file."""
+    path = "blog_storage.json"
+    try:
+        with open(path, "r") as file:
+            return js.load(file)
+    except FileNotFoundError:
+        print("File not found")
+        return []
+
+
+def write_json_file(posts):
+    """Write posts to JSON file."""
+    path = "blog_storage.json"
+    with open(path, "w") as file:
+        js.dump(posts, file, indent=4)
+
+
 @app.route("/")
 def index():
     """Load and show the root page."""
-    with open("blog_storage.json", "r") as file:
-        blog_posts = js.load(file)
-
+    blog_posts = read_json_file()
     return render_template("index.html",
                            posts=blog_posts)
+
 
 
 @app.route("/add", methods=["GET", "POST"])
