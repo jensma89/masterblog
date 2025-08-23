@@ -40,18 +40,11 @@ def index():
                            posts=blog_posts)
 
 
-
 @app.route("/add", methods=["GET", "POST"])
 def add():
     """Load the page to add a new post and save it."""
     if request.method == "POST":
-
-        try:
-            with open("blog_storage.json", "r") as file:
-                blog_posts = js.load(file)
-        except FileNotFoundError:
-            print("File not found")
-            blog_posts = []
+        blog_posts = read_json_file()
 
         # Create the new entry in the dictionary
         new_post = {
@@ -64,9 +57,7 @@ def add():
         }
 
         blog_posts.append(new_post)
-
-        with open("blog_storage.json", "w") as file:
-            js.dump(blog_posts, file, indent=4)
+        write_json_file(blog_posts)
 
         return redirect(url_for("index"))
     return render_template("add.html")
@@ -76,19 +67,13 @@ def add():
 def delete(post_id):
     """Delete a post via button or URL.
     And remove it from dictionary"""
-    try:
-        with open("blog_storage.json", "r") as file:
-            blog_posts = js.load(file)
-    except FileNotFoundError:
-        print("File not found")
-        blog_posts = []
+    blog_posts = read_json_file()
 
     # Check for the right id
     blog_posts = [post for post in blog_posts
                   if post["id"] != post_id]
 
-    with open("blog_storage.json", "w") as file:
-        js.dump(blog_posts, file, indent=4)
+    write_json_file(blog_posts)
 
     return redirect(url_for("index"))
 
@@ -96,12 +81,7 @@ def delete(post_id):
 @app.route("/update/<int:post_id>", methods=["GET", "POST"])
 def update(post_id):
     """Edit a post via an html form."""
-    try:
-        with open("blog_storage.json", "r") as file:
-            blog_posts = js.load(file)
-    except FileNotFoundError:
-        print("File not found")
-        blog_posts = []
+    blog_posts = read_json_file()
 
     # Check for existing post
     post = next((p for p in blog_posts
@@ -117,24 +97,18 @@ def update(post_id):
         post["content"] = request.form.get("content",
                                            post["content"])
 
-        with open("blog_storage.json", "w") as file:
-            js.dump(blog_posts, file, indent=4)
+        write_json_file(blog_posts)
 
         return redirect(url_for("index"))
-
-    return render_template("update.html", post=post)
+    return render_template("update.html",
+                           post=post)
 
 
 @app.route("/like/<int:post_id>", methods=["POST"])
 def like(post_id):
     """Add a like to the blog
     and increase the count to show."""
-    try:
-        with open("blog_storage.json", "r") as file:
-            blog_posts = js.load(file)
-    except FileNotFoundError:
-        print("File not found")
-        blog_posts = []
+    blog_posts = read_json_file()
 
     # Increment by click
     for post in blog_posts:
@@ -142,8 +116,7 @@ def like(post_id):
             post["likes"] += 1
             break
 
-    with open("blog_storage.json", "w") as file:
-        js.dump(blog_posts, file, indent=4)
+    write_json_file(blog_posts)
 
     return redirect(url_for("index"))
 
@@ -152,12 +125,7 @@ def like(post_id):
 def dislike(post_id):
     """Add a dislike to the blog
     and increase the count to show."""
-    try:
-        with open("blog_storage.json", "r") as file:
-            blog_posts = js.load(file)
-    except FileNotFoundError:
-        print("File not found")
-        blog_posts = []
+    blog_posts = read_json_file()
 
     # Increment by click
     for post in blog_posts:
@@ -165,11 +133,10 @@ def dislike(post_id):
             post["dislikes"] += 1
             break
 
-    with open("blog_storage.json", "w") as file:
-        js.dump(blog_posts, file, indent=4)
+    write_json_file(blog_posts)
 
     return redirect(url_for("index"))
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host="0.0.0.0", port=5001, debug=True)

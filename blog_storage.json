@@ -5,14 +5,14 @@
         "author": "John Doe",
         "content": "Iam the first blogger on this site",
         "likes": 7,
-        "dislikes": 0
+        "dislikes": 1
     },
     {
         "id": 2,
         "title": "Second",
         "author": "Jane Doroe",
-        "content": "Congrats! ",
-        "likes": 0,
-        "dislikes": 0
+        "content": "Congrats! This is great...",
+        "likes": 1,
+        "dislikes": 1
     }
 ]
